@@ -10,45 +10,39 @@ namespace Engine_3D
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static int WindowHeight;
-        private static int WindowWidth;
-        private WriteableBitmap WriteableBitmap;
+        private static int WindowHeight = 720;
+        private static int WindowWidth = 1280;
+        private WriteableBitmap? WriteableBitmap;
         public MainWindow()
         {
             InitializeComponent();
-            DrawBackground();
+            DrawPixels();
         }
 
-        private void DrawBackground()
+        private void DrawPixels()
         {
-            WindowWidth = (int) MainGrid.Width;
-            WindowHeight = (int) MainGrid.Height;
             WriteableBitmap = new WriteableBitmap(WindowWidth, WindowHeight, 96, 96, PixelFormats.Bgr32, null);
-            byte[, ,] pixels = new byte[WindowHeight, WindowWidth, 4];
-            for (int x = 0;x< WriteableBitmap.Width ;x++)
+
+            for (int x = 0; x < WriteableBitmap.Width; x++)
             {
-                for (int y = 0;y< WriteableBitmap.Width;y++)
+                for (int y = 0; y < WriteableBitmap.Height; y++)
                 {
-                    for (int i = 0; i < 3; i++)
-                        pixels[y, x, i] = 0;
-                    pixels[y, x, 3] = 255;
+                    int alpha = 255;
+                    int red = 0;
+                    int green = 0;
+                    int blue = 255;
+
+                    byte[] colorData = {(byte) blue, (byte) green, (byte) red, (byte) alpha};
+                    
+                    Int32Rect rect = new Int32Rect(x, y, 1, 1);
+                    int stride = (WriteableBitmap.Format.BitsPerPixel * WindowWidth) / 8 ;
+                    WriteableBitmap.WritePixels(rect, colorData, stride, 0);
                 }
             }
             
-            byte[] pixels1d = new byte[WindowHeight * WindowWidth * 4];
-            int index = 0;
-            for (int row = 0; row < WindowHeight; row++)
-            {
-                for (int col = 0; col < WindowWidth; col++)
-                {
-                    for (int i = 0; i < 4; i++)
-                        pixels1d[index++]= pixels[row, col, i];
-                }
-            }
+            
             // Update writeable bitmap with the colorArray to the image.
-            Int32Rect rect = new Int32Rect(0, 0, WindowWidth, WindowHeight);
-            int stride = 4 * WindowWidth;
-            WriteableBitmap.WritePixels(rect, pixels1d, stride, 0);
+            
 
             // Create an Image to display the bitmap.
             Image image = new Image();
