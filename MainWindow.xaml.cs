@@ -12,47 +12,24 @@ namespace Engine_3D
     {
         private static int WindowHeight = 720;
         private static int WindowWidth = 1280;
-        private WriteableBitmap? WriteableBitmap;
+        private Image _image = new Image();
+        
+        private Screen _screen = new Screen();
         public MainWindow()
         {
+            //SetSettings
+            _image.Stretch = Stretch.None;
+            _image.Margin = new Thickness(0);
+            
+            //create window and Start app
             InitializeComponent();
-            DrawPixels();
+            this.RunApp();
         }
 
-        private void DrawPixels()
+        public void RunApp()
         {
-            WriteableBitmap = new WriteableBitmap(WindowWidth, WindowHeight, 96, 96, PixelFormats.Bgr32, null);
-
-            for (int x = 0; x < WriteableBitmap.Width; x++)
-            {
-                for (int y = 0; y < WriteableBitmap.Height; y++)
-                {
-                    int alpha = 255;
-                    int red = 0;
-                    int green = 0;
-                    int blue = 255;
-
-                    byte[] colorData = {(byte) blue, (byte) green, (byte) red, (byte) alpha};
-                    
-                    Int32Rect rect = new Int32Rect(x, y, 1, 1);
-                    int stride = (WriteableBitmap.Format.BitsPerPixel * WindowWidth) / 8 ;
-                    WriteableBitmap.WritePixels(rect, colorData, stride, 0);
-                }
-            }
-            
-            
-            // Update writeable bitmap with the colorArray to the image.
-            
-
-            // Create an Image to display the bitmap.
-            Image image = new Image();
-            image.Stretch = Stretch.None;
-            image.Margin = new Thickness(0);
-
-            MainGrid.Children.Add(image);
-
-            //Set the Image source.
-            image.Source = WriteableBitmap;
+            _image.Source = _screen.Display(WindowWidth, WindowHeight);
+            MainGrid.Children.Add(_image);  
         }
     }
 }
