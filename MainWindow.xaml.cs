@@ -13,7 +13,7 @@ namespace Engine_3D
         private static int WindowHeight = 720;
         private static int WindowWidth = 1280;
         private Image _image = new Image();
-        
+
         private Screen _screen = new Screen();
         public MainWindow()
         {
@@ -28,6 +28,7 @@ namespace Engine_3D
 
         public void RunApp()
         {
+            
             _image.Source = _screen.Display(WindowWidth, WindowHeight);
             MainGrid.Children.Add(_image);  
         }
