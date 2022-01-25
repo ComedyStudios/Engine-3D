@@ -29,7 +29,7 @@ namespace Engine_3D
         public void RunApp()
         {
             
-            _image.Source = _screen.Display(WindowWidth, WindowHeight);
+            _image.Source = _screen.Display();
             MainGrid.Children.Add(_image);  
         }
     }

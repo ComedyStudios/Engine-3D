@@ -5,6 +5,9 @@ namespace Engine_3D;
 public abstract class SceneObject
 {
     public Vector3 center;
+    public Vector3 XAxis = new Vector3(1, 0, 0);
+    public Vector3 YAxis= new Vector3(0, 1, 0);
+    public Vector3 ZAxis = new Vector3(0, 0, 1);
 
     public SceneObject()
     {

@@ -18,8 +18,10 @@ public class Screen
         mainScene = new Scene();
         mainCam = mainScene.mainCam;
     }
-    public WriteableBitmap Display(int WindowWidth, int WindowHeight)
+    public WriteableBitmap Display()
     {
+        var WindowHeight = mainCam.WindowHeight;
+        var WindowWidth = mainCam.WindowWidth;
         WriteableBitmap wb = new WriteableBitmap(WindowWidth, WindowHeight, 96, 96, PixelFormats.Bgr32, null);
         byte[] pixels = new byte[(int)wb.Width * (int)wb.Height * wb.Format.BitsPerPixel / 8];
         Int32Rect rect = new Int32Rect(0, 0, (int)wb.Width, (int)wb.Height);
@@ -29,7 +31,7 @@ public class Screen
             for (int y = 0; y < wb.Height; y++)
             {
                 //these are values for test porposes delete later
-                Vector3 rayDirection = mainCam.direction;
+                Vector3 rayDirection = mainScene.camToWorldCordinate(x, y, mainCam);
                 var ray = new Ray(mainCam.center, rayDirection);
                 
                 int red = 0;
@@ -39,7 +41,7 @@ public class Screen
                 if (ray.RayCastHit(mainScene))
                 {
                     red = 0;
-                    green = 0;
+                    green = 255;
                     blue = 0;
                 }
                 else

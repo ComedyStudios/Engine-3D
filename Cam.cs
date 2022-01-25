@@ -4,13 +4,15 @@ namespace Engine_3D;
 
 public class Cam: SceneObject
 {
-    public Vector3 direction { get; }
-    private Vector3 orientation = new Vector3(0, 1, 0);
+    public int WindowWidth = 1280;
+    public int WindowHeight = 720;
+    public float fov = 90;
     
     
-    public Cam(float x, float y, float z, Vector3 direction)
+    public Cam(float x, float y, float z)
     {
         center = new Vector3(x, y, z);
-        this.direction = direction;
     }
+
+    
 }
