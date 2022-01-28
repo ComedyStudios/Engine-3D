@@ -2,6 +2,7 @@
 using System.Windows.Media.Media3D;
 using EngineLib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Camera = EngineLib.Camera;
 
 namespace EngineLibTests;
 
@@ -12,7 +13,7 @@ public class HitScanTest
     [TestMethod]
     public void SphereColisionTest()
     {
-        var cam = new Cam(0,0,-10);
+        var cam = new Camera(0,0,-10);
         var scene = new Scene();
         var s1 = new Sphere(0, 0, 100,1);
         var ray = new Ray(cam.Position, scene.CamToWorldCordinate(640, 360, cam)); ;

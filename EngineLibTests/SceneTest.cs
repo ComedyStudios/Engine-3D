@@ -11,7 +11,7 @@ public class UnitTest1
     public void CamToWorldCordinateTest()
     {
         // initialisation
-        var cam = new Cam(0, 0, 10);
+        var cam = new Camera(0, 0, 10);
         
         var scene = new Scene();
         

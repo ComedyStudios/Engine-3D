@@ -19,8 +19,8 @@ public class Sphere : SceneObject, IVisible
 
     public bool RayCastHit(Ray ray)
     {
-        var transform = Position - ray.origin;
-        var projection = Vector3.Dot(transform, ray.direction);
+        var transform = Position - ray.Origin;
+        var projection = Vector3.Dot(transform, ray.Direction);
         var temp = Vector3.Dot(transform, transform);
         var distance = Math.Sqrt(temp- projection * projection);
         if (distance < radius && !(projection<0) )

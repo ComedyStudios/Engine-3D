@@ -1,9 +1,7 @@
 ﻿using System.Numerics;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
 
 namespace EngineLib;
 
@@ -11,18 +9,18 @@ public class Screen
 {
 
     private Scene mainScene;
-    private Cam mainCam;
+    private Camera _mainCamera;
 
     public Screen()
     {
         mainScene = new Scene();
-        mainCam = mainScene.mainCam;
+        _mainCamera = mainScene.MainCamera;
     }
     public WriteableBitmap Display()
     {
-        var WindowHeight = mainCam.WindowHeight;
-        var WindowWidth = mainCam.WindowWidth;
-        WriteableBitmap wb = new WriteableBitmap(WindowWidth, WindowHeight, 96, 96, PixelFormats.Bgr32, null);
+        var windowHeight = Camera.Height;
+        var windowWidth = Camera.Width;
+        WriteableBitmap wb = new WriteableBitmap((int)windowWidth, (int)windowHeight, 96, 96, PixelFormats.Bgr32, null);
         byte[] pixels = new byte[(int)wb.Width * (int)wb.Height * wb.Format.BitsPerPixel / 8];
         Int32Rect rect = new Int32Rect(0, 0, (int)wb.Width, (int)wb.Height);
 
@@ -31,8 +29,8 @@ public class Screen
             for (int y = 0; y < wb.Height; y++)
             {
                 //these are values for test porposes delete later
-                Vector3 rayDirection = mainScene.CamToWorldCordinate(x, y, mainCam);
-                var ray = new Ray(mainCam.Position, rayDirection);
+                Vector3 rayDirection = mainScene.CamToWorldCordinate(x, y, _mainCamera);
+                var ray = new Ray(_mainCamera.Position, rayDirection);
                 
                 int red = 0;
                 int green = 0;
@@ -59,7 +57,7 @@ public class Screen
                 pixels[pixelOffset + 3] = 255;
             }
         }
-        int stride = (wb.Format.BitsPerPixel * WindowWidth) / 8 ;
+        var stride = (int)(wb.Format.BitsPerPixel * windowWidth / 8) ;
         wb.WritePixels(rect, pixels, stride, 0);
 
         return wb;

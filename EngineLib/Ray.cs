@@ -4,23 +4,22 @@ namespace EngineLib;
 
 public class Ray
 {
-    //the pixels the ray is being cast from
-    public Vector3 origin { get; }
-    public Vector3 direction { get; }
-
     public Ray(Vector3 origin , Vector3 direction)
     {
-        this.origin = origin;
-        this.direction = direction;
+        this.Origin = origin;
+        this.Direction = direction;
     }
+    
+    //the pixels the ray is being cast from
+    public Vector3 Origin { get; }
+    public Vector3 Direction { get; }
 
     public bool RayCastHit(Scene scene)
     {
         foreach (var thing in scene.Objects)
         {
-            if (thing is IVisible)
+            if (thing is IVisible visibleThing)
             {
-                IVisible visibleThing = (IVisible)thing;
                 if (visibleThing.RayCastHit(this))
                 {
                     return true;
