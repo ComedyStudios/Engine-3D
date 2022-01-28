@@ -13,9 +13,10 @@ public class Scene
     
     public Scene()
     {
-        WorldOrigin = new Vector3(0, 0, 0); 
-        mainCam = new Cam(0, 0, -10);
-        s1  = new Sphere(0, 0,0, 1);
+        WorldOrigin = new Vector3(0, 0, 0);
+        //TODO: ray-sphere colision doesnt work at all if camera coordinates are negative
+        mainCam = new Cam(0, 0,  -10);
+        s1  = new Sphere(0, 0,10,1);
         Objects.Add(s1);
     }
     
@@ -24,7 +25,6 @@ public class Scene
     
     public Vector3 CamToWorldCordinate(int x, int y, Cam cam)
     {
-        //TODO: The vectro is pointing int the oposite direction 
         var width = cam.WindowWidth;
         var height = cam.WindowHeight;
         var fov = cam.fov;
@@ -35,12 +35,14 @@ public class Scene
 
         var CameraSpace = new Vector3((float)PixelCameraX, (float)PixelCameraY, 1);
 
-        var Translation = cam.center - WorldOrigin;
+        //TODO: this matrix is to retarded to convert to values if the cam locaiton is negative
+        var Translation = cam.Position - WorldOrigin;
         var WorldCoordinate = new Vector3(
             cam.XAxis.X * CameraSpace.X + cam.YAxis.X * CameraSpace.Y + cam.ZAxis.X * CameraSpace.Z + Translation.X,
             cam.XAxis.Y * CameraSpace.X + cam.YAxis.Y * CameraSpace.Y + cam.ZAxis.Y * CameraSpace.Z + Translation.Y,
             cam.XAxis.Z * CameraSpace.X + cam.YAxis.Z * CameraSpace.Y + cam.ZAxis.Z * CameraSpace.Z + Translation.Z);
-        WorldCoordinate = Vector3.Normalize(WorldCoordinate);
-        return -WorldCoordinate;
+        WorldCoordinate = Vector3.Normalize(WorldCoordinate-cam.Position);
+        
+        return WorldCoordinate;
     }
 }

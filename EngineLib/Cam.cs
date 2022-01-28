@@ -11,7 +11,7 @@ public class Cam: SceneObject
     
     public Cam(float x, float y, float z)
     {
-        center = new Vector3(x, y, z);
+        Position = new Vector3(x, y, z);
     }
 
     

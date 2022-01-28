@@ -32,7 +32,7 @@ public class Screen
             {
                 //these are values for test porposes delete later
                 Vector3 rayDirection = mainScene.CamToWorldCordinate(x, y, mainCam);
-                var ray = new Ray(mainCam.center, rayDirection);
+                var ray = new Ray(mainCam.Position, rayDirection);
                 
                 int red = 0;
                 int green = 0;
