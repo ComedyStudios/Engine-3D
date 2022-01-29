@@ -14,18 +14,15 @@ public class Ray
     public Vector3 Origin { get; }
     public Vector3 Direction { get; }
 
-    public bool RayCastHit(Scene scene)
+    public RayHit? RayCastHit(Scene scene)
     {
         foreach (var thing in scene.Objects)
         {
             if (thing is IVisible visibleThing)
             {
-                if (visibleThing.RayCastHit(this))
-                {
-                    return true;
-                }
+                return visibleThing.RayCastHit(this);
             }
         }
-        return false;
+        return null;
     }
 }

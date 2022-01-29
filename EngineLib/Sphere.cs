@@ -8,25 +8,29 @@ namespace EngineLib;
 
 public class Sphere : SceneObject, IVisible
 {
-    private float radius;
-    public Color _color = Color.Green;
-    public Sphere(float x, float y,float z, float radius)
+    private float _radius;
+    private Color _color;
+    public Sphere(float x, float y,float z, float radius, Color color)
     {
         Position = new Vector3(x, y, z);
-        this.radius = radius;
+        this._radius = radius;
+        _color = color;
     }
 
 
-    public bool RayCastHit(Ray ray)
+    public RayHit? RayCastHit(Ray ray)
     {
         var transform = Position - ray.Origin;
         var projection = Vector3.Dot(transform, ray.Direction);
         var temp = Vector3.Dot(transform, transform);
         var distance = Math.Sqrt(temp- projection * projection);
-        if (distance < radius && !(projection<0) )
+        if (distance < _radius && !(projection<0) )
         {
-            return true;
+            var centerToEdge = Math.Sqrt(Math.Pow(_radius, 2)-Math.Pow(distance, 2));
+            var hitDistance =(float)( projection - centerToEdge);
+            var hitPosition = ray.Origin + hitDistance * ray.Direction;
+            return new RayHit(hitPosition, hitDistance,_color);
         }
-        return false;
+        return null;
     }
 }

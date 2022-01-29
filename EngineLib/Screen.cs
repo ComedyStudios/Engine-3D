@@ -35,12 +35,14 @@ public class Screen
                 int red = 0;
                 int green = 0;
                 int blue = 0;
+
+                var hit = ray.RayCastHit(mainScene);
                 
-                if (ray.RayCastHit(mainScene))
+                if (hit != null)
                 {
-                    red = 0;
-                    green = 255;
-                    blue = 0;
+                    red = hit.PixelColor.R;
+                    green = hit.PixelColor.G;
+                    blue = hit.PixelColor.B;
                 }
                 else
                 {

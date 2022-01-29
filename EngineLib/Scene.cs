@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Numerics;
 using System.Windows.Documents;
 using System.Windows.Media.Media3D;
@@ -10,14 +11,17 @@ public class Scene
 {
     private Vector3 WorldOrigin;
     private Sphere s1;
+    private Sphere s2;
     
+    //TODO: multiple Spheres cant be shown for some reason
     public Scene()
     {
-        WorldOrigin = new Vector3(0, 0, 0);
-        //TODO: ray-sphere colision doesnt work at all if camera coordinates are negative
-        MainCamera = new Camera(0, 0,  -10);
-        s1  = new Sphere(0, 0,10,1);
-        Objects.Add(s1);
+        WorldOrigin = new Vector3(0, 0, 0); 
+        MainCamera = new Camera(0, 0,  -20);
+        //s1  = new Sphere(0, 0,10,2, Color.Red);
+        s2 = new Sphere(20, 0, 9, 5, Color.LimeGreen);
+       // Objects.Add(s1);
+        Objects.Add(s2);
     }
     
     public Camera MainCamera { get; set; }

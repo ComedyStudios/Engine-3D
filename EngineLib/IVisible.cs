@@ -2,5 +2,5 @@
 
 public interface IVisible
 {
-    public bool RayCastHit(Ray ray);
+    public RayHit? RayCastHit(Ray ray);
 }
