@@ -5,7 +5,6 @@ namespace EngineLib;
 
 public class Plane: SceneObject, IVisible
 {
-    //TODO: Make the plane not infinite size
     /// <summary>
     /// constructor of the plane
     /// </summary>
