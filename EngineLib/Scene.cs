@@ -12,7 +12,7 @@ public class Scene
     private readonly Vector3 WorldOrigin ;
     private Sphere s1;
     private Sphere s2;
-    
+    private Plane p1;
         
     /// <summary>
     /// constructor of the class, determines all objects in the scene and puts them in a list
@@ -21,10 +21,13 @@ public class Scene
     {
         WorldOrigin = new Vector3(0, 0, 0);
         MainCamera = new Camera(0, 0,  -20);
-        s1  = new Sphere(0, 0,10,2, Color.Red);
+        p1 = new Plane(0, -10, 0, 10, 10, Color.Aqua);
+        s1  = new Sphere(0, 0,1,1, Color.Red);
         s2 = new Sphere(20, 0, 9, 5, Color.LimeGreen);
+        
         Objects.Add(s1);
         Objects.Add(s2);
+        Objects.Add(p1);
     }
     
     /// <summary>
