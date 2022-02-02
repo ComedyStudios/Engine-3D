@@ -28,15 +28,15 @@ public class Scene
     {
         WorldOrigin = new Vector3(0, 0, 0);
         MainCamera = new Camera(0, 0,  -20);
-        p1 = new Plane(-50, -3, -20, 100, 100, Color.Aqua);
-        s1  = new Sphere(0, 0,1,1, Color.Red);
-        s2 = new Sphere(0, 5, 9, 5, Color.LimeGreen);
+        p1 = new Plane(-50, -10, -20, 100, 100, Color.Aqua);
+        s1  = new Sphere(-5, 0,1,2, Color.Red);
+        s2 = new Sphere(5, 0, 1, 2, Color.LimeGreen);
         
         Objects.Add(s1);
         Objects.Add(s2);
         Objects.Add(p1);
 
-        l1 = new Lightsource(0, 20, 0, 10);
+        l1 = new Lightsource(0, 10, 0, 10);
         Lightsources.Add(l1);
     }
     

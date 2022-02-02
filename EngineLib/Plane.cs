@@ -46,23 +46,34 @@ public class Plane: SceneObject, IVisible
     /// </summary>
     /// <param name="ray">the ray the is being checked</param>
     /// <returns>hit information</returns>
-    public RayHit? RayCastHit(Ray ray)
+    public RayHit? RayCastHit(Ray ray, Scene scene)
     {
         var distance = (Vector3.Dot((Position - ray.Origin), NormalVector)) / Vector3.Dot(ray.Direction, NormalVector);
         if (distance >= 0)
         {
-            var hitLocation = ray.Origin + distance * ray.Direction;
-            var centerIntersectionVector = hitLocation - Position;
+            var hitPosition = ray.Origin + distance * ray.Direction;
+            var centerIntersectionVector = hitPosition - Position;
             var proj1 = Vector3.Dot(centerIntersectionVector, new Vector3(Width, 0, 0)) / Width;
             var proj2 = Vector3.Dot(centerIntersectionVector, new Vector3(0, 0, Height)) / Height;
 
 
             if ((proj1 < Width && proj1 > 0)&&(proj2 < Height && proj2 > 0))
             {
-                var hit = new RayHit(hitLocation, distance, Color, this);
+                var newColor = Shading(hitPosition, scene.Lightsources[0]);
+                var hit = new RayHit(hitPosition, distance, newColor, this);
                 return hit;
             }
         }
         return null;
     }
+
+    private Color Shading(Vector3 hitPosition, Lightsource lightsource)
+    {
+        var lightDir = Vector3.Normalize(lightsource.Position - hitPosition);
+        var lightFaktor = Math.Max(Vector3.Dot(lightDir,NormalVector), 0);
+        var color = Color.FromArgb((int)(Color.R * lightFaktor), (int)(Color.G * lightFaktor), (int)(Color.B * lightFaktor));
+        return color;
+    }
+    
+    
 }

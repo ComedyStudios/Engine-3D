@@ -35,7 +35,7 @@ public class Ray
         {
             if (thing is IVisible visibleThing)
             {
-                var newHit = visibleThing.RayCastHit(this);
+                var newHit = visibleThing.RayCastHit(this, scene);
                 if (newHit != null && (hit == null || newHit.Distance < hit.Distance) )
                 {
                     hit = newHit;

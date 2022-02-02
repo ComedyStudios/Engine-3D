@@ -42,18 +42,18 @@ public class Screen
                 if (hit != null)
                 {
                     //TODO: fix this
-                    if (hit.SpotInShow(mainScene))
+                    /*if (hit.SpotInShow(mainScene))
                     {
-                        red = Color.Gray.R;
-                        green = Color.Gray.G;
-                        blue = Color.Gray.B;
-                    }
-                    else
-                    {
+                        red = 0;
+                        green = 0;
+                        blue = 0;
+                    }*/
+                    /*else
+                    {*/
                         red = hit.PixelColor.R;
                         green = hit.PixelColor.G;
                         blue = hit.PixelColor.B;
-                    }
+                    //}
                 }
                 else
                 {
@@ -62,7 +62,6 @@ public class Screen
                     blue = 0;
                 }
                 
-
                 int pixelOffset = (x + y * wb.PixelWidth) * wb.Format.BitsPerPixel / 8;
                 pixels[pixelOffset] = (byte)blue;
                 pixels[pixelOffset + 1] = (byte)green;

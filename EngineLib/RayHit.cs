@@ -52,7 +52,7 @@ public class RayHit
         {
             var ray = new Ray(lightsource.Position, Vector3.Normalize(this.HitLocation-lightsource.Position));
             var newHit = ray.RayCastHitAnyObject(scene);
-            if (newHit != null && (this.HitLocation - newHit.HitLocation).Length()<0.1 )
+            if (newHit != null && (this.HitLocation - newHit.HitLocation).Length()<0.001 )
             {
                 return false;
             }

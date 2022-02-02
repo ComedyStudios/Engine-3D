@@ -16,9 +16,10 @@ public class Sphere : SceneObject, IVisible
         this._radius = radius;
         _color = color;
     }
+    
 
 
-    public RayHit? RayCastHit(Ray ray)
+    public RayHit? RayCastHit(Ray ray, Scene scene)
     {
         var transform = Position - ray.Origin;
         var projection = Vector3.Dot(transform, ray.Direction);
@@ -29,8 +30,26 @@ public class Sphere : SceneObject, IVisible
             var centerToEdge = Math.Sqrt(Math.Pow(_radius, 2)-Math.Pow(distance, 2));
             var hitDistance =(float)( projection - centerToEdge);
             var hitPosition = ray.Origin + hitDistance * ray.Direction;
-            return new RayHit(hitPosition, hitDistance,_color, this);
+            
+            //TODO: doesnt support multiple lightsources
+            var newColor = Shading(hitPosition, scene.Lightsources[0]);
+            return new RayHit(hitPosition, hitDistance,newColor, this);
         }
         return null;
+    }
+
+    private Color Shading(Vector3 hitPosition, Lightsource lightsource)
+    {
+        var lightDir = Vector3.Normalize(lightsource.Position - Position);
+        var lightFaktor = Math.Max(Vector3.Dot(lightDir,GetNormal(hitPosition)), 0);
+        var color = Color.FromArgb((int)(_color.R * lightFaktor), (int)(_color.G * lightFaktor), (int)(_color.B * lightFaktor));
+        return color;
+    }
+
+
+    public Vector3 GetNormal(Vector3 hitPosition)
+    {
+        var normal = hitPosition - Position;
+        return Vector3.Normalize(normal);
     }
 }

@@ -1,4 +1,8 @@
-﻿namespace EngineLib;
+﻿using System.Drawing;
+using System.Numerics;
+using System.Windows.Media.Media3D;
+
+namespace EngineLib;
 
 public interface IVisible
 {
@@ -7,5 +11,5 @@ public interface IVisible
     /// </summary>
     /// <param name="ray">the ray that was casted</param>
     /// <returns>information on what and where the ray hit</returns>
-    public RayHit? RayCastHit(Ray ray);
+    public RayHit? RayCastHit(Ray ray, Scene scene);
 }

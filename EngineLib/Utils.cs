@@ -13,4 +13,5 @@ public static class Utils
             sceneObject.XAxis.Z * localCoordinate.X + sceneObject.YAxis.Z * localCoordinate.Y + sceneObject.ZAxis.Z * localCoordinate.Z + translation.Z);
         return worldCoordinate;
     }
+    
 }
