@@ -29,7 +29,7 @@ public class Sphere : SceneObject, IVisible
             var centerToEdge = Math.Sqrt(Math.Pow(_radius, 2)-Math.Pow(distance, 2));
             var hitDistance =(float)( projection - centerToEdge);
             var hitPosition = ray.Origin + hitDistance * ray.Direction;
-            return new RayHit(hitPosition, hitDistance,_color);
+            return new RayHit(hitPosition, hitDistance,_color, this);
         }
         return null;
     }

@@ -59,7 +59,7 @@ public class Plane: SceneObject, IVisible
 
             if ((proj1 < Width && proj1 > 0)&&(proj2 < Height && proj2 > 0))
             {
-                var hit = new RayHit(hitLocation, distance, Color);
+                var hit = new RayHit(hitLocation, distance, Color, this);
                 return hit;
             }
         }

@@ -12,11 +12,12 @@ public class RayHit
     /// <param name="hitLocation">location where the ray hit</param>
     /// <param name="hitDistance">distance to Ray origin</param>
     /// <param name="color">color of the Pixel</param>
-    public RayHit(Vector3 hitLocation, float hitDistance, Color color)
+    public RayHit(Vector3 hitLocation, float hitDistance, Color color, SceneObject sceneObject)
     {
         HitLocation = hitLocation;
         Distance = hitDistance;
         PixelColor = color;
+        SceneObject = sceneObject;
     }
     
     /// <summary>
@@ -34,6 +35,7 @@ public class RayHit
         }
     }
     
+    public SceneObject SceneObject { get; set; }
     /// <summary>
     /// the location the ray has hit at
     /// </summary>
@@ -43,4 +45,20 @@ public class RayHit
     /// the color of the Pixel
     /// </summary>
     public Color PixelColor { get; set; }
+    
+    public bool SpotInShow( Scene scene)
+    {
+        foreach (var lightsource in scene.Lightsources)
+        {
+            var ray = new Ray(lightsource.Position, Vector3.Normalize(this.HitLocation-lightsource.Position));
+            var newHit = ray.RayCastHitAnyObject(scene);
+            if (newHit != null && (this.HitLocation - newHit.HitLocation).Length()<0.1 )
+            {
+                return false;
+            }
+            
+            //TODO: Fix this
+        }
+        return true;
+    }
 }

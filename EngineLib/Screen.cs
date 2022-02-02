@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Color = System.Drawing.Color;
 
 namespace EngineLib;
 
@@ -36,13 +37,23 @@ public class Screen
                 int green = 0;
                 int blue = 0;
 
-                var hit = ray.RayCastHit(mainScene);
+                var hit = ray.RayCastHitAnyObject(mainScene);
                 
                 if (hit != null)
                 {
-                    red = hit.PixelColor.R;
-                    green = hit.PixelColor.G;
-                    blue = hit.PixelColor.B;
+                    //TODO: fix this
+                    if (hit.SpotInShow(mainScene))
+                    {
+                        red = Color.Gray.R;
+                        green = Color.Gray.G;
+                        blue = Color.Gray.B;
+                    }
+                    else
+                    {
+                        red = hit.PixelColor.R;
+                        green = hit.PixelColor.G;
+                        blue = hit.PixelColor.B;
+                    }
                 }
                 else
                 {

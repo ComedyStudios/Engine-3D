@@ -10,9 +10,16 @@ namespace EngineLib;
 public class Scene
 {
     private readonly Vector3 WorldOrigin ;
+    
+    //creating worldObjects
     private Sphere s1;
     private Sphere s2;
     private Plane p1;
+    
+    //CreatingLightsources
+    private Lightsource l1;
+    
+    
         
     /// <summary>
     /// constructor of the class, determines all objects in the scene and puts them in a list
@@ -21,20 +28,25 @@ public class Scene
     {
         WorldOrigin = new Vector3(0, 0, 0);
         MainCamera = new Camera(0, 0,  -20);
-        p1 = new Plane(0, -10, 0, 10, 10, Color.Aqua);
+        p1 = new Plane(-50, -3, -20, 100, 100, Color.Aqua);
         s1  = new Sphere(0, 0,1,1, Color.Red);
-        s2 = new Sphere(20, 0, 9, 5, Color.LimeGreen);
+        s2 = new Sphere(0, 5, 9, 5, Color.LimeGreen);
         
         Objects.Add(s1);
         Objects.Add(s2);
         Objects.Add(p1);
+
+        l1 = new Lightsource(0, 20, 0, 10);
+        Lightsources.Add(l1);
     }
     
     /// <summary>
     /// camera of the Scene
     /// </summary>
     public Camera MainCamera { get; set; }
-    
+
+    public List<Lightsource> Lightsources { get; set; } = new List<Lightsource>();
+
     /// <summary>
     /// Array with all the objects in the Scene
     /// </summary>

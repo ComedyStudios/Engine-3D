@@ -28,19 +28,21 @@ public class Ray
     /// </summary>
     /// <param name="scene">scene in which the ray is casted/param>
     /// <returns>information on what the Ray hit, can return null</returns>
-    public RayHit? RayCastHit(Scene scene)
+    public RayHit? RayCastHitAnyObject(Scene scene)
     {
+        RayHit? hit = null;
         foreach (var thing in scene.Objects)
         {
             if (thing is IVisible visibleThing)
             {
-                var hit = visibleThing.RayCastHit(this);
-                if (hit != null)
+                var newHit = visibleThing.RayCastHit(this);
+                if (newHit != null && (hit == null || newHit.Distance < hit.Distance) )
                 {
-                    return hit; 
+                    hit = newHit;
                 }
             }
         }
-        return null;
+        return hit;
     }
 }
+
