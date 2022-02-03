@@ -16,7 +16,7 @@ public class UnitTest1
         var scene = new Scene();
         
         // act
-        var result = scene.CamToWorldCordinate(640, 360, cam);
+        var result = scene.CameraToWorldCoordinate(640, 360, cam);
 
         // Validation
         Assert.AreEqual(0, Math.Round(result.X, 2));

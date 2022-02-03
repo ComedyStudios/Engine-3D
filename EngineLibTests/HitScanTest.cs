@@ -17,7 +17,7 @@ public class HitScanTest
         var cam = new Camera(0,0,-10);
         var scene = new Scene();
         var s1 = new Sphere(0, 0, 100,1, Color.Chartreuse);
-        var ray = new Ray(cam.Position, scene.CamToWorldCordinate(640, 360, cam)); ;
+        var ray = new Ray(cam.Position, scene.CameraToWorldCoordinate(640, 360, cam)); ;
         var result = s1.RayCastHit(ray, scene);
         Assert.IsTrue(result != null);
     }

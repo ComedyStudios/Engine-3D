@@ -8,48 +8,72 @@ namespace EngineLib;
 
 public class Sphere : SceneObject, IVisible
 {
-    private float _radius;
-    private Color _color;
+    
+
+    /// <summary>
+    /// Constructro of the class
+    /// </summary>
+    /// <param name="x">x coordinate</param>
+    /// <param name="y">y coordinate</param>
+    /// <param name="z">z coordinate</param>
+    /// <param name="radius">radius of the Sphere</param>
+    /// <param name="color">color of the Sphere</param>
     public Sphere(float x, float y,float z, float radius, Color color)
     {
         Position = new Vector3(x, y, z);
-        this._radius = radius;
-        _color = color;
+        Radius = radius;
+        Color = color;
     }
     
+    /// <summary>
+    /// Radius of the Sphere
+    /// </summary>
+    public float Radius { get; set; }
+    
+    /// <summary>
+    /// Color of the Sphere
+    /// </summary>
+    public Color Color { get; set; }
 
-
+    /// <summary>
+    /// checks if the ray hit this Object and applies shading 
+    /// </summary>
+    /// <param name="ray">Ray that is being checked </param>  
+    /// <param name="scene">Scene the Object ist in</param>
+    /// <returns>Returns information about the hit</returns>
     public RayHit? RayCastHit(Ray ray, Scene scene)
     {
         var transform = Position - ray.Origin;
         var projection = Vector3.Dot(transform, ray.Direction);
         var temp = Vector3.Dot(transform, transform);
         var distance = Math.Sqrt(temp- projection * projection);
-        if (distance < _radius && !(projection<0) )
+        
+        //check if the Ray hit the Object
+        if (distance < Radius && !(projection<0) )
         {
-            var centerToEdge = Math.Sqrt(Math.Pow(_radius, 2)-Math.Pow(distance, 2));
+            //calculate information about the hit
+            var centerToEdge = Math.Sqrt(Math.Pow(Radius, 2)-Math.Pow(distance, 2));
             var hitDistance =(float)( projection - centerToEdge);
             var hitPosition = ray.Origin + hitDistance * ray.Direction;
             
+            //apply shading to the spot
             //TODO: doesnt support multiple lightsources
-            var newColor = Shading(hitPosition, scene.Lightsources[0]);
+            var normal = GetNormal(hitPosition);
+            var newColor = Shading(hitPosition,scene.Lightsources[0], Color, normal);
             return new RayHit(hitPosition, hitDistance,newColor, this);
         }
         return null;
     }
 
-    private Color Shading(Vector3 hitPosition, Lightsource lightsource)
-    {
-        var lightDir = Vector3.Normalize(lightsource.Position - Position);
-        var lightFaktor = Math.Max(Vector3.Dot(lightDir,GetNormal(hitPosition)), 0);
-        var color = Color.FromArgb((int)(_color.R * lightFaktor), (int)(_color.G * lightFaktor), (int)(_color.B * lightFaktor));
-        return color;
-    }
+    /// <summary>
+    /// returns the normal Vektor
+    /// </summary>
+    /// <param name="position">positon for witch the normal shall be calculated</param>
+    /// <returns>the Normal Vektor</returns>
 
-
-    public Vector3 GetNormal(Vector3 hitPosition)
+    public Vector3 GetNormal(Vector3 position)
     {
-        var normal = hitPosition - Position;
+        var normal = position - Position;
         return Vector3.Normalize(normal);
     }
 }

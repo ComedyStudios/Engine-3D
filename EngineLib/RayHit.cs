@@ -45,20 +45,4 @@ public class RayHit
     /// the color of the Pixel
     /// </summary>
     public Color PixelColor { get; set; }
-    
-    public bool SpotInShow( Scene scene)
-    {
-        foreach (var lightsource in scene.Lightsources)
-        {
-            var ray = new Ray(lightsource.Position, Vector3.Normalize(this.HitLocation-lightsource.Position));
-            var newHit = ray.RayCastHitAnyObject(scene);
-            if (newHit != null && (this.HitLocation - newHit.HitLocation).Length()<0.001 )
-            {
-                return false;
-            }
-            
-            //TODO: Fix this
-        }
-        return true;
-    }
 }

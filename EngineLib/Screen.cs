@@ -30,7 +30,7 @@ public class Screen
             for (int y = 0; y < wb.Height; y++)
             {
                 //these are values for test porposes delete later
-                Vector3 rayDirection = mainScene.CamToWorldCordinate(x, y, _mainCamera);
+                Vector3 rayDirection = mainScene.CameraToWorldCoordinate(x, y, _mainCamera);
                 var ray = new Ray(_mainCamera.Position, rayDirection);
                 
                 int red = 0;
