@@ -11,7 +11,11 @@ public class Screen
 
     private Scene mainScene;
     private Camera _mainCamera;
+    private Color BackgroundColor = Color.Blue; 
 
+    /// <summary>
+    /// construcktor of the Class
+    /// </summary>
     public Screen()
     {
         mainScene = new Scene();
@@ -29,7 +33,6 @@ public class Screen
         {
             for (int y = 0; y < wb.Height; y++)
             {
-                //these are values for test porposes delete later
                 Vector3 rayDirection = mainScene.CameraToWorldCoordinate(x, y, _mainCamera);
                 var ray = new Ray(_mainCamera.Position, rayDirection);
                 
@@ -41,25 +44,15 @@ public class Screen
                 
                 if (hit != null)
                 {
-                    //TODO: fix this
-                    /*if (hit.SpotInShow(mainScene))
-                    {
-                        red = 0;
-                        green = 0;
-                        blue = 0;
-                    }*/
-                    /*else
-                    {*/
-                        red = hit.PixelColor.R;
-                        green = hit.PixelColor.G;
-                        blue = hit.PixelColor.B;
-                    //}
+                    red = hit.PixelColor.R;
+                    green = hit.PixelColor.G;
+                    blue = hit.PixelColor.B;
                 }
                 else
                 {
-                    red = 0;
-                    green = 0;
-                    blue = 0;
+                    red = BackgroundColor.R;
+                    green = BackgroundColor.G;
+                    blue = BackgroundColor.B;
                 }
                 
                 int pixelOffset = (x + y * wb.PixelWidth) * wb.Format.BitsPerPixel / 8;

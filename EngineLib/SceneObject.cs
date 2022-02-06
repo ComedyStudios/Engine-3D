@@ -23,9 +23,19 @@ public abstract class SceneObject
     /// <returns>new Color with the Shading applied</returns>
     protected Color Shading(Vector3 position, Lightsource lightSource, Color color, Vector3 normal)
     {
-        var lightDir = Vector3.Normalize(lightSource.Position - position);
+        var posToLightVector = lightSource.Position - position;
+        var lightDir = Vector3.Normalize(posToLightVector);
+        var Distance = Math.Pow(posToLightVector.Length(), 2);
+        var fallOff = 4 * Math.PI * Distance;
         var lightFactor = Math.Max(Vector3.Dot(lightDir,normal), 0);
-        var newColor = Color.FromArgb((int)(color.R * lightFactor), (int)(color.G * lightFactor), (int)(color.B * lightFactor));
+        var newColor = Color.FromArgb(calculateColorValue(color.R, lightFactor, lightSource.Intensity, fallOff),
+            calculateColorValue(color.G, lightFactor, lightSource.Intensity, fallOff), 
+            calculateColorValue(color.B, lightFactor, lightSource.Intensity, fallOff));
         return newColor;
+    }
+
+    private int calculateColorValue(int colorValue, float lightFactor, float lightIntensity, double fallOff)
+    {
+        return Math.Min(255, (int) (colorValue * lightFactor * lightIntensity / fallOff));
     }
 }

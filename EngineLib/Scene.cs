@@ -22,15 +22,15 @@ public class Scene
     public Scene()
     {
         MainCamera = new Camera(0, 0,  -20);
-        p1 = new Plane(-50, -10, -20, 100, 100, Color.Aqua);
-        s1  = new Sphere(-5, 0,1,2, Color.Red);
+        p1 = new Plane(-50, -10, -20, 100, 100, Color.NavajoWhite);
+        s1  = new Sphere(-5, 0,1,2, Color.DarkRed);
         s2 = new Sphere(5, 0, 1, 2, Color.LimeGreen);
         
         Objects.Add(s1);
         Objects.Add(s2);
         Objects.Add(p1);
 
-        l1 = new Lightsource(0, 0, -2, 10);
+        l1 = new Lightsource(0, 3, -4, 1000);
         Lightsources.Add(l1);
     }
     
