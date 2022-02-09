@@ -8,7 +8,7 @@ namespace EngineLibTests;
 public class UnitTest1
 {
     [TestMethod]
-    public void CamToWorldCordinateTest()
+    public void CamToWorldCoordinateTest()
     {
         // initialisation
         var cam = new Camera(0, 0, 10);

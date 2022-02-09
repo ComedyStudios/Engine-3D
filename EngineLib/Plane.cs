@@ -14,14 +14,19 @@ public class Plane: SceneObject, IVisible
     /// <param name="width">width of the plane</param>
     /// <param name="height">height of the plane</param>
     /// <param name="color">color of the plane</param>
-    public Plane(float x, float y, float z,float width, float height, Color color)
+    /// <param name="albedo">reflectiveness from 0 to 1 </param>
+    public Plane(float x, float y, float z,float width, float height, Color color, float albedo)
     {
         Position = new Vector3(x, y, z);
         Width = width;
         Height = height;
         Color = color;
+        Albedo = albedo;
     }
-
+    /// <summary>
+    /// reflectiveness of the Sphere
+    /// </summary>
+    public float Albedo { get; set; }
     /// <summary>
     /// return the Normal Vector of the plane which determines its orientation. The Normal Vector is facing the same way as the Y vector
     /// </summary>
@@ -61,7 +66,7 @@ public class Plane: SceneObject, IVisible
             //calculate if the Ray hit this plane
             if ((proj1 < Width && proj1 > 0)&&(proj2 < Height && proj2 > 0))
             {
-                var newColor = Shading(hitPosition,scene.Lightsources[0],Color, NormalVector);
+                var newColor = Shading(hitPosition,scene.Lightsources,Color, NormalVector,Albedo);
                 var hit = new RayHit(hitPosition, distance, newColor, this);
                 return hit;
             }

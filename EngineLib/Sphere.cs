@@ -8,8 +8,6 @@ namespace EngineLib;
 
 public class Sphere : SceneObject, IVisible
 {
-    
-
     /// <summary>
     /// Constructro of the class
     /// </summary>
@@ -18,12 +16,19 @@ public class Sphere : SceneObject, IVisible
     /// <param name="z">z coordinate</param>
     /// <param name="radius">radius of the Sphere</param>
     /// <param name="color">color of the Sphere</param>
-    public Sphere(float x, float y,float z, float radius, Color color)
+    /// <param name="albedo">reflectiveness from 0 to 1 </param>
+    public Sphere(float x, float y,float z, float radius, Color color, float albedo)
     {
         Position = new Vector3(x, y, z);
         Radius = radius;
         Color = color;
+        Albedo = albedo;
     }
+    
+    /// <summary>
+    /// Reflectiveness of the Sphere
+    /// </summary>
+    public float Albedo { get; set; }
     
     /// <summary>
     /// Radius of the Sphere
@@ -59,7 +64,7 @@ public class Sphere : SceneObject, IVisible
             //apply shading to the spot
             //TODO: doesnt support multiple lightsources
             var normal = GetNormal(hitPosition);
-            var newColor = Shading(hitPosition,scene.Lightsources[0], Color, normal);
+            var newColor = Shading(hitPosition,scene.Lightsources, Color, normal, Albedo);
             return new RayHit(hitPosition, hitDistance,newColor, this);
         }
         return null;

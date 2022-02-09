@@ -5,13 +5,13 @@ namespace EngineLib;
 
 public class Scene
 {
-
     //creating world objects
     private Sphere s1;
     private Sphere s2;
     private Plane p1;
     
     //Creating Light-sources
+    private Lightsource l2;
     private Lightsource l1;
     
     
@@ -22,15 +22,17 @@ public class Scene
     public Scene()
     {
         MainCamera = new Camera(0, 0,  -20);
-        p1 = new Plane(-50, -10, -20, 100, 100, Color.NavajoWhite);
-        s1  = new Sphere(-5, 0,1,2, Color.DarkRed);
-        s2 = new Sphere(5, 0, 1, 2, Color.LimeGreen);
+        p1 = new Plane(-50, -10, -20, 100, 100, Color.NavajoWhite,1 );
+        s1  = new Sphere(-5, 0,1,2, Color.DarkRed, 1);
+        s2 = new Sphere(5, 0, 1, 2, Color.LimeGreen, 1);
         
         Objects.Add(s1);
         Objects.Add(s2);
         Objects.Add(p1);
 
-        l1 = new Lightsource(0, 3, -4, 1000);
+        l1 = new Lightsource(0, 3, -4, 4);
+        l2 = new Lightsource(0, 3, 4, 5);
+        //Lightsources.Add(l2);
         Lightsources.Add(l1);
     }
     
