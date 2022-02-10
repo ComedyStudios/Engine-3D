@@ -87,14 +87,28 @@ public class Ray
                 
                  if (!SpotInShadow(hit, lightDir, scene))
                  { 
-                     var newColor = calculateColorValue(hit.PixelColor, lightPower, lightReflected);
+                     var newColor = CalculateColorValue(hit.PixelColor, lightPower, lightReflected);
                      finalColor = AddColors(finalColor, newColor);
                  }
             }
             return finalColor;
         }
-
-        private Color calculateColorValue(Color colorValue, float lightPower, double lightReflected)
+     
+        private bool SpotInShadow(RayHit hit, Vector3 lightDirection, Scene scene)
+        {
+            float bias = 1F;
+            var ray = new Ray(hit.HitLocation + bias * hit.Normal, lightDirection);
+            var shadowRayHit = ray.RayCastHit(scene);
+            //TODO: Add bias so that it casts correctly
+            
+            if (shadowRayHit == null || shadowRayHit.SceneObject == hit.SceneObject)
+            {
+                return false;
+            }
+            return true;
+        }
+        
+        private static Color CalculateColorValue(Color colorValue, float lightPower, double lightReflected)
         {
             var r = ((float)colorValue.R / 255) * lightPower * lightReflected;
             var g = ((float)colorValue.G / 255) * lightPower * lightReflected;
@@ -106,20 +120,6 @@ public class Ray
         private static Color AddColors(Color color1, Color color2)
         {
             return Color.FromArgb(Math.Min(255, color1.R + color2.R), Math.Min(255, color1.G + color2.G), Math.Min(255, color1.B + color2.B));
-        }
-
-        private bool SpotInShadow(RayHit hit, Vector3 lightDirection, Scene scene)
-        {
-             
-            var ray = new Ray(hit.HitLocation, lightDirection);
-            var shadowRayHit = ray.RayCastHit(scene);
-            //TODO: Add bias so that it casts correctly
-            
-            if (shadowRayHit == null || ((shadowRayHit.HitLocation - hit.HitLocation).Length() < 0.1 && shadowRayHit.SceneObject != hit.SceneObject))
-            {
-                return false;
-            }
-            return true;
         }
 }
 

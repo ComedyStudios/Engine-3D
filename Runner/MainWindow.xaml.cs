@@ -11,8 +11,6 @@ namespace Engine_3D
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static int WindowHeight = 720;
-        private static int WindowWidth = 1280;
         private Image _image = new Image();
 
         private Screen _screen = new Screen();
@@ -29,7 +27,6 @@ namespace Engine_3D
 
         public void RunApp()
         {
-            
             _image.Source = _screen.Display();
             MainGrid.Children.Add(_image);  
         }
