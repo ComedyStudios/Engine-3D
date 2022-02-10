@@ -25,10 +25,7 @@ public class Sphere : SceneObject, IVisible
         Albedo = albedo;
     }
     
-    /// <summary>
-    /// Reflectiveness of the Sphere
-    /// </summary>
-    public float Albedo { get; set; }
+    
     
     /// <summary>
     /// Radius of the Sphere
@@ -62,10 +59,8 @@ public class Sphere : SceneObject, IVisible
             var hitPosition = ray.Origin + hitDistance * ray.Direction;
             
             //apply shading to the spot
-            //TODO: doesnt support multiple lightsources
             var normal = GetNormal(hitPosition);
-            var newColor = Shading(hitPosition,scene.Lightsources, Color, normal, Albedo);
-            return new RayHit(hitPosition, hitDistance,newColor, this);
+            return new RayHit(hitPosition, hitDistance,Color, this, normal);
         }
         return null;
     }

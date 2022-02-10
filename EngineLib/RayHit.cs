@@ -12,12 +12,13 @@ public class RayHit
     /// <param name="hitLocation">location where the ray hit</param>
     /// <param name="hitDistance">distance to Ray origin</param>
     /// <param name="color">color of the Pixel</param>
-    public RayHit(Vector3 hitLocation, float hitDistance, Color color, SceneObject sceneObject)
+    public RayHit(Vector3 hitLocation, float hitDistance, Color color, SceneObject sceneObject, Vector3 normal)
     {
         HitLocation = hitLocation;
         Distance = hitDistance;
         PixelColor = color;
         SceneObject = sceneObject;
+        Normal = normal;
     }
     
     /// <summary>
@@ -35,6 +36,11 @@ public class RayHit
         }
     }
     
+    /// <summary>
+    /// Normal Vector at hit location
+    /// </summary>
+    public Vector3 Normal { get; set; }    
+
     public SceneObject SceneObject { get; set; }
     /// <summary>
     /// the location the ray has hit at

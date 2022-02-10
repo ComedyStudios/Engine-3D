@@ -24,10 +24,6 @@ public class Plane: SceneObject, IVisible
         Albedo = albedo;
     }
     /// <summary>
-    /// reflectiveness of the Sphere
-    /// </summary>
-    public float Albedo { get; set; }
-    /// <summary>
     /// return the Normal Vector of the plane which determines its orientation. The Normal Vector is facing the same way as the Y vector
     /// </summary>
     public Vector3 NormalVector => YAxis;
@@ -66,9 +62,7 @@ public class Plane: SceneObject, IVisible
             //calculate if the Ray hit this plane
             if ((proj1 < Width && proj1 > 0)&&(proj2 < Height && proj2 > 0))
             {
-                var newColor = Shading(hitPosition,scene.Lightsources,Color, NormalVector,Albedo);
-                var hit = new RayHit(hitPosition, distance, newColor, this);
-                return hit;
+                return new RayHit(hitPosition, distance, Color, this, NormalVector);
             }
         }
         return null;

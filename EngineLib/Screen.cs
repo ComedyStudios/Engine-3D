@@ -40,7 +40,7 @@ public class Screen
                 int green = 0;
                 int blue = 0;
 
-                var hit = ray.RayCastHitAnyObject(mainScene);
+                var hit = ray.RayCastAndShade(mainScene);
                 
                 if (hit != null)
                 {
