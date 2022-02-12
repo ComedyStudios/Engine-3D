@@ -13,17 +13,17 @@ public class Camera: SceneObject
     /// Camera resolution - width
     /// </summary>
     public const float Height = 720;
-    
+
     /// <summary>
     /// Creates an instance of the Camera
     /// </summary>
     /// <param name="x">x axis of the camera position.</param>
     /// <param name="y">y axis of the camera position.</param>
     /// <param name="z">x axis of the camera position.</param>
-    public Camera(float x, float y, float z)
+    /// <param name="fov">field of view of the cammera</param>
+    public Camera(float x, float y, float z, float fov): base(x,y,z)
     {
-        Fov = 90;
-        Position = new Vector3(x, y, z);;
+        Fov = fov;
     }
 
     /// <summary>
@@ -35,4 +35,21 @@ public class Camera: SceneObject
     /// Get camera aspect ratio
     /// </summary>
     public float AspectRatio => Width / Height;
+    
+    public Vector3 CameraToWorldCoordinate(int x, int y)
+    {
+        var width = Camera.Width;
+        var height = Camera.Height;
+        var fov = Fov;
+        var aspectRatio =  AspectRatio;
+
+        var pixelCameraX = (float)((2f * (x + 0.5f) / width - 1f)* aspectRatio * Math.Tan(fov*Math.PI/180/2));
+        var pixelCameraY = (float)(1f - 2f * ((y + 0.5f) / height)* Math.Tan(fov/2*Math.PI/ 180));
+        var cameraSpace = new Vector3(pixelCameraX, pixelCameraY, 1);
+        
+        var worldCoordinate = cameraSpace.LocalToGlobalCoordinate(this);
+        worldCoordinate = Vector3.Normalize(worldCoordinate-Position);
+        
+        return worldCoordinate;
+    }
 }

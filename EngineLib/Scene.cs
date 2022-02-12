@@ -21,17 +21,17 @@ public class Scene
     /// </summary>
     public Scene()
     {
-        MainCamera = new Camera(0, 0,  -20);
-        p1 = new Plane(-50, -4, -20, 100, 100, Color.NavajoWhite,1 );
-        s1  = new Sphere(-10, 0,0,3, Color.Chocolate, 1);
-        s2 = new Sphere(10, 0, 0, 2, Color.LimeGreen, 1);
+        MainCamera = new Camera(0, 0,  -20, 90);
+        p1 = new Plane(-50, -4, -20, 100, 100, Color.NavajoWhite,1, 0.5f );
+        s1  = new Sphere(-10, 0,0,3, Color.Chocolate, 1, 0.25f);
+        s2 = new Sphere(10, 0, 0, 2, Color.LimeGreen, 1,0);
         
         Objects.Add(s1);
         Objects.Add(s2);
         Objects.Add(p1);
 
-        l1 = new Lightsource(0, 10, 0, 30);
-        l2 = new Lightsource(0, 3, -10, 20);
+        l1 = new Lightsource(0, 10, 0, 30, Color.White);
+        l2 = new Lightsource(0, 3, -10, 20, Color.White);
         Lightsources.Add(l2);
         Lightsources.Add(l1);
     }
@@ -58,20 +58,5 @@ public class Scene
     /// <param name="y">coordinate of the pixel</param>
     /// <param name="camera">camera the ray is being cast from</param>
     /// <returns>direction</returns>
-    public Vector3 CameraToWorldCoordinate(int x, int y, Camera camera)
-    {
-        var width = Camera.Width;
-        var height = Camera.Height;
-        var fov = camera.Fov;
-        var aspectRatio =  camera.AspectRatio;
-
-        var pixelCameraX = (float)((2f * (x + 0.5f) / width - 1f)* aspectRatio * Math.Tan(fov*Math.PI/180/2));
-        var pixelCameraY = (float)(1f - 2f * ((y + 0.5f) / height)* Math.Tan(fov/2*Math.PI/ 180));
-        var cameraSpace = new Vector3(pixelCameraX, pixelCameraY, 1);
-        
-        var worldCoordinate = Utils.LocalToGlobalCoordinate(cameraSpace, camera);
-        worldCoordinate = Vector3.Normalize(worldCoordinate-camera.Position);
-        
-        return worldCoordinate;
-    }
+    
 }

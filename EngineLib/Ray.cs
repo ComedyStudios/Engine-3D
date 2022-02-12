@@ -38,10 +38,10 @@ public class Ray
         RayHit? hit; 
         hit = RayCastHit(scene);
         
-        //Apply Shading
+        //Apply DifuseShading
         if (hit != null)
         {
-            hit.PixelColor = Shading(hit, scene);
+            hit.PixelColor = DifuseShading(hit, scene);
         }
        
         return hit;
@@ -70,8 +70,8 @@ public class Ray
     /// </summary>
      /// <param name="hit">hit information</param>
     /// <param name="scene">Scene</param>
-    /// <returns>new Color with the Shading applied</returns>
-     private Color Shading(RayHit hit, Scene scene)
+    /// <returns>new Color with the DifuseShading applied</returns>
+     private Color DifuseShading(RayHit hit, Scene scene)
         {
             if (scene == null) throw new ArgumentNullException(nameof(scene));
             
@@ -81,17 +81,26 @@ public class Ray
             {
                 //calculate values
                 var lightDir = Vector3.Normalize(lightSource.Position - hit.HitLocation);
-                var lightDot = Math.Max(Vector3.Dot(hit.Normal, lightDir),0 );
-                var lightReflected = hit.SceneObject.Albedo / Math.PI;
-                var lightIntensity =  lightSource.Intensity/(4*Math.PI * lightDir.Length());
-                var lightPower = lightDot * lightIntensity;
-
+                var lightPower = Math.Max(Vector3.Dot(hit.Normal, lightDir),0 ) * lightSource.Intensity/(4*Math.PI * lightDir.Length());
+                var lightFactor = lightPower * hit.SceneObject.Albedo / Math.PI;;
+                
+                //change colors
                 if (SpotInShadow(hit, lightDir, scene)) continue;
-                var newColor = CalculateColorValue(hit.PixelColor, lightPower, lightReflected);
-                finalColor = AddColors(finalColor, newColor);
+                finalColor = finalColor.AddColor(hit.PixelColor.ColorMultiply(lightFactor).ColorMultiply(lightSource.Color));
             }
             return finalColor;
         }
+
+         private RayHit Reflection(int iteration, int maxIteration, RayHit hit, Ray incedentRay)
+         {
+             if (iteration < maxIteration)
+             {
+                 var reflectionRay = new Ray(hit.HitLocation,
+                     incedentRay.Direction - 2 * Vector3.Dot(incedentRay.Direction, hit.Normal) * hit.Normal);
+                 
+             }
+             return hit;
+         }
      
         private static bool SpotInShadow(RayHit hit, Vector3 lightDirection, Scene scene)
         {
@@ -107,18 +116,6 @@ public class Ray
             return true;
         }
         
-        private static Color CalculateColorValue(Color colorValue, double lightPower, double lightReflected)
-        {
-            var r = ((float)colorValue.R / 255) * lightPower * lightReflected;
-            var g = ((float)colorValue.G / 255) * lightPower * lightReflected;
-            var b = ((float)colorValue.B / 255) * lightPower * lightReflected;
-            return Color.FromArgb(Math.Min((int)(r * 255), 255), Math.Min((int)(g * 255), 255), Math.Min((int)(b * 255), 255));
-        }
-
-
-        private static Color AddColors(Color color1, Color color2)
-        {
-            return Color.FromArgb(Math.Min(255, color1.R + color2.R), Math.Min(255, color1.G + color2.G), Math.Min(255, color1.B + color2.B));
-        }
+        
 }
 

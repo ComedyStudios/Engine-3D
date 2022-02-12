@@ -5,6 +5,24 @@ namespace EngineLib;
 
 public abstract class SceneObject
 {
+    public SceneObject(float x, float y, float z, float albedo, float reflectivity, Color color)
+    {
+        Position = new Vector3(x, y, z);
+        Albedo = albedo;
+        Reflectivity = reflectivity;
+        Color = color;
+    }
+    
+    public SceneObject(float x, float y, float z, Color color)
+    {
+        Position = new Vector3(x, y, z);
+        Color = color;
+    }
+    
+    public SceneObject(float x, float y, float z)
+    {
+        Position = new Vector3(x, y, z);
+    }
     /// <summary>
     /// position and Axis of the Object
     /// </summary>
@@ -17,4 +35,10 @@ public abstract class SceneObject
     /// Reflectiveness of the Sphere
     /// </summary>
     public float Albedo { get; set; }
+    public float Reflectivity { get; set;}
+    
+    /// <summary>
+    /// Color of the Object
+    /// </summary>
+    public Color Color { get; set; }
 }

@@ -33,7 +33,7 @@ public class Screen
         {
             for (int y = 0; y < wb.Height; y++)
             {
-                Vector3 rayDirection = mainScene.CameraToWorldCoordinate(x, y, _mainCamera);
+                Vector3 rayDirection = _mainCamera.CameraToWorldCoordinate(x, y);
                 var ray = new Ray(_mainCamera.Position, rayDirection);
                 
                 int red = 0;

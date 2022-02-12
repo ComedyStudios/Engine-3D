@@ -17,12 +17,10 @@ public class Sphere : SceneObject, IVisible
     /// <param name="radius">radius of the Sphere</param>
     /// <param name="color">color of the Sphere</param>
     /// <param name="albedo">reflectiveness from 0 to 1 </param>
-    public Sphere(float x, float y,float z, float radius, Color color, float albedo)
+    /// <param name="reflectivity">the reflectivity of the Sphere</param>
+    public Sphere(float x, float y,float z, float radius, Color color, float albedo, float reflectivity): base(x, y, z, albedo,reflectivity, color)
     {
-        Position = new Vector3(x, y, z);
         Radius = radius;
-        Color = color;
-        Albedo = albedo;
     }
     
     
@@ -32,10 +30,6 @@ public class Sphere : SceneObject, IVisible
     /// </summary>
     public float Radius { get; set; }
     
-    /// <summary>
-    /// Color of the Sphere
-    /// </summary>
-    public Color Color { get; set; }
 
     /// <summary>
     /// checks if the ray hit this Object and applies shading 

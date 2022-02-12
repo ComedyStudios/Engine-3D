@@ -15,13 +15,11 @@ public class Plane: SceneObject, IVisible
     /// <param name="height">height of the plane</param>
     /// <param name="color">color of the plane</param>
     /// <param name="albedo">reflectiveness from 0 to 1 </param>
-    public Plane(float x, float y, float z,float width, float height, Color color, float albedo)
+    /// <param name="reflectivity">reflectivity of the Plane</param>
+    public Plane(float x, float y, float z,float width, float height, Color color, float albedo, float reflectivity): base(x, y, z, albedo,reflectivity, color)
     {
-        Position = new Vector3(x, y, z);
         Width = width;
         Height = height;
-        Color = color;
-        Albedo = albedo;
     }
     /// <summary>
     /// return the Normal Vector of the plane which determines its orientation. The Normal Vector is facing the same way as the Y vector
@@ -36,16 +34,12 @@ public class Plane: SceneObject, IVisible
     /// Height of the plane
     /// </summary>
     public float Height { get; set; }
-    
-    /// <summary>
-    /// Color of the plane
-    /// </summary>
-    public Color Color { get; set; }
-    
+
     /// <summary>
     /// checks if the plane is visible at a certain pixel or not
     /// </summary>
     /// <param name="ray">the ray the is being checked</param>
+    /// <param name="scene">scene the ray is being cast in</param>
     /// <returns>hit information</returns>
     public RayHit? RayCastHit(Ray ray, Scene scene)
     {

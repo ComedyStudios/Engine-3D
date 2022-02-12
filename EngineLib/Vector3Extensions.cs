@@ -2,7 +2,7 @@
 
 namespace EngineLib;
 
-public static class Utils
+public static class Vector3Extensions
 {
     /// <summary>
     /// converts the Local Vektor to Global Vektor 
@@ -11,7 +11,7 @@ public static class Utils
     /// <param name="sceneObject">the Object on which the conversion takes place</param>
     /// <param name="worldOrigin"></param>
     /// <returns>WorldCoordinate</returns>
-    public static Vector3 LocalToGlobalCoordinate(Vector3 localCoordinate, SceneObject sceneObject)
+    public static Vector3 LocalToGlobalCoordinate(this Vector3 localCoordinate, SceneObject sceneObject)
     {
         var translation = sceneObject.Position;
         var worldCoordinate = new Vector3(
