@@ -5,31 +5,32 @@ namespace EngineLib;
 
 public abstract class SceneObject
 {
-    public SceneObject(float x, float y, float z, float albedo, float reflectivity, Color color)
+    protected SceneObject(float x, float y, float z, float albedo, float reflectivity, Color color)
     {
         Position = new Vector3(x, y, z);
         Albedo = albedo;
         Reflectivity = reflectivity;
         Color = color;
     }
-    
-    public SceneObject(float x, float y, float z, Color color)
+
+    protected SceneObject(float x, float y, float z, Color color)
     {
         Position = new Vector3(x, y, z);
         Color = color;
     }
-    
-    public SceneObject(float x, float y, float z)
+
+    protected SceneObject(float x, float y, float z)
     {
         Position = new Vector3(x, y, z);
     }
+    
     /// <summary>
     /// position and Axis of the Object
     /// </summary>
     public Vector3 Position;
-    public Vector3 XAxis = new Vector3(1, 0, 0);
-    public Vector3 YAxis= new Vector3(0, 1, 0);
-    public Vector3 ZAxis = new Vector3(0, 0, 1);
+    public Vector3 XAxis = new(1, 0, 0);
+    public Vector3 YAxis= new(0, 1, 0);
+    public Vector3 ZAxis = new(0, 0, 1);
     
     /// <summary>
     /// Reflectiveness of the Sphere
