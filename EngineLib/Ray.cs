@@ -71,35 +71,34 @@ public class Ray
      /// <param name="hit">hit information</param>
     /// <param name="scene">Scene</param>
     /// <returns>new Color with the Shading applied</returns>
-    public Color Shading(RayHit hit, Scene scene)
+     private Color Shading(RayHit hit, Scene scene)
         {
             if (scene == null) throw new ArgumentNullException(nameof(scene));
+            
             var finalColor = Color.Black;
             
             foreach (var lightSource in scene.Lightsources)
             {
                 //calculate values
                 var lightDir = Vector3.Normalize(lightSource.Position - hit.HitLocation);
-                var lightDot = Math.Max(Vector3.Dot(lightDir,hit.Normal), 0);
+                var lightDot = Math.Max(Vector3.Dot(hit.Normal, lightDir),0 );
                 var lightReflected = hit.SceneObject.Albedo / Math.PI;
-                var lightPower = lightDot * lightSource.Intensity;
-                //TODO: check for shadows
-                
-                 if (!SpotInShadow(hit, lightDir, scene))
-                 { 
-                     var newColor = CalculateColorValue(hit.PixelColor, lightPower, lightReflected);
-                     finalColor = AddColors(finalColor, newColor);
-                 }
+                var lightIntensity =  lightSource.Intensity/(4*Math.PI * lightDir.Length());
+                var lightPower = lightDot * lightIntensity;
+
+                if (SpotInShadow(hit, lightDir, scene)) continue;
+                var newColor = CalculateColorValue(hit.PixelColor, lightPower, lightReflected);
+                finalColor = AddColors(finalColor, newColor);
             }
             return finalColor;
         }
      
-        private bool SpotInShadow(RayHit hit, Vector3 lightDirection, Scene scene)
+        private static bool SpotInShadow(RayHit hit, Vector3 lightDirection, Scene scene)
         {
-            float bias = 1F;
+            float bias = 0.0001f;
             var ray = new Ray(hit.HitLocation + bias * hit.Normal, lightDirection);
             var shadowRayHit = ray.RayCastHit(scene);
-            //TODO: Add bias so that it casts correctly
+            
             
             if (shadowRayHit == null || shadowRayHit.SceneObject == hit.SceneObject)
             {
@@ -108,7 +107,7 @@ public class Ray
             return true;
         }
         
-        private static Color CalculateColorValue(Color colorValue, float lightPower, double lightReflected)
+        private static Color CalculateColorValue(Color colorValue, double lightPower, double lightReflected)
         {
             var r = ((float)colorValue.R / 255) * lightPower * lightReflected;
             var g = ((float)colorValue.G / 255) * lightPower * lightReflected;
