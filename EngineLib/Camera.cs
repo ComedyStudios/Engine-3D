@@ -36,6 +36,12 @@ public class Camera: SceneObject
     /// </summary>
     public float AspectRatio => Width / Height;
     
+    /// <summary>
+    /// Transforms Pixel cordinates to WorldCordinates
+    /// </summary>
+    /// <param name="x">vertical coordinate of Pixel</param>
+    /// <param name="y">horizontal coordinate of Pixel</param>
+    /// <returns>Position of pixel in scene</returns>
     public Vector3 CameraToWorldCoordinate(int x, int y)
     {
         var width = Camera.Width;

@@ -30,12 +30,15 @@ public class Ray
     /// </summary>
     /// <param name="scene">scene in which the ray is casted/param>
     /// <returns>information on what the Ray hit, can return null</returns>
-    public RayHit? RayCastAndShade(Scene scene)
+    public RayHit? RayCastAndShade(Scene scene, int raytracingDepth)
     {
         //check if ray Hit Anything
         var hit = RayCastHit(scene);
         //Apply DiffuseShading
-        if (hit != null) hit.PixelColor = DiffuseShading(hit, scene);
+        if (hit != null)
+        {
+            hit.PixelColor = Reflection(raytracingDepth, hit, this, scene);
+        }
         return hit;
     }
     
@@ -43,7 +46,7 @@ public class Ray
     /// checks if a certain Object is visible for a certain ray
     /// </summary>
     /// <param name="scene"></param>
-    /// <returns></returns>
+    /// <returns>hit informaiton</returns>
     private RayHit? RayCastHit(Scene scene)
     {
         RayHit? hit = null;
@@ -67,7 +70,7 @@ public class Ray
     /// <param name="hit">hit information</param>
     /// <param name="scene">Scene</param>
     /// <returns>new Color with the DiffuseShading applied</returns>
-    private Color DiffuseShading(RayHit? hit, Scene scene)
+    private Color DiffuseShading(RayHit hit, Scene scene)
     {
         if (scene == null) throw new ArgumentNullException(nameof(scene));
         
@@ -93,7 +96,7 @@ public class Ray
     /// <param name="lightDirection">Direction to a certain light from this posiiton</param>
     /// <param name="scene">scene that all the things are placed in</param>
     /// <returns>bool</returns>
-    private static bool SpotInShadow(RayHit? hit, Vector3 lightDirection, Scene scene)
+    private static bool SpotInShadow(RayHit hit, Vector3 lightDirection, Scene scene)
     {
         float bias = 0.0001f;
         var ray = new Ray(hit.HitLocation + bias * hit.Normal, lightDirection);
@@ -106,17 +109,18 @@ public class Ray
         }
         return true;
     }
-    private Color Reflection(int iteration, int maxIteration, RayHit hit, Ray incedentRay, Scene scene)
+    private Color Reflection( int maxIteration, RayHit hit, Ray incedentRay, Scene scene, int iteration = 0)
     {
         var color = DiffuseShading(hit, scene).ColorMultiply(1-hit.SceneObject.Reflectivity);
         if (iteration < maxIteration)
         {
+            var bias = 0.001f;
             var reflectedRayDir = incedentRay.Direction - 2 * Vector3.Dot(incedentRay.Direction, hit.Normal) * hit.Normal;
-            var reflectionRay = new Ray(hit.HitLocation,reflectedRayDir);
+            var reflectionRay = new Ray(hit.HitLocation + bias * hit.Normal ,reflectedRayDir);
             var newHit = reflectionRay.RayCastHit(scene);
             if (newHit != null)
             {
-                color.ColorMultiply(Reflection(iteration + 1, maxIteration, newHit, reflectionRay, scene));
+                color = color.AddColor(Reflection(maxIteration, newHit, reflectionRay, scene, iteration + 1).ColorMultiply(hit.SceneObject.Reflectivity));
             }
         }
         return color;

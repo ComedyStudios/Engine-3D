@@ -22,7 +22,7 @@ public class Scene
     public Scene()
     {
         MainCamera = new Camera(0, 0,  -20, 90);
-        p1 = new Plane(-50, -4, -20, 100, 100, Color.NavajoWhite,1, 0.5f );
+        p1 = new Plane(-50, -4, -20, 100, 100, Color.NavajoWhite,1, 0.5f);
         s1  = new Sphere(-10, 0,0,3, Color.Chocolate, 1, 0.25f);
         s2 = new Sphere(10, 0, 0, 2, Color.LimeGreen, 1,0);
         

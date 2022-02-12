@@ -14,10 +14,10 @@ public class HitScanTest
     [TestMethod]
     public void SphereColisionTest()
     {
-        var cam = new Camera(0,0,-10);
+        var cam = new Camera(0,0,-10, 90);
         var scene = new Scene();
-        var s1 = new Sphere(0, 0, 100,1, Color.Chartreuse, 1);
-        var ray = new Ray(cam.Position, scene.CameraToWorldCoordinate(640, 360, cam)); ;
+        var s1 = new Sphere(0, 0, 100,1, Color.Chartreuse, 1, 0);
+        var ray = new Ray(cam.Position, cam.CameraToWorldCoordinate(640, 360)); ;
         var result = s1.RayCastHit(ray, scene);
         Assert.IsTrue(result != null);
     }

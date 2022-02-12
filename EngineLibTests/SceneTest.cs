@@ -11,12 +11,12 @@ public class UnitTest1
     public void CamToWorldCoordinateTest()
     {
         // initialisation
-        var cam = new Camera(0, 0, 10);
+        var cam = new Camera(0, 0, 10,90);
         
         var scene = new Scene();
         
         // act
-        var result = scene.CameraToWorldCoordinate(640, 360, cam);
+        var result = cam.CameraToWorldCoordinate(640, 360);
 
         // Validation
         Assert.AreEqual(0, Math.Round(result.X, 2));
