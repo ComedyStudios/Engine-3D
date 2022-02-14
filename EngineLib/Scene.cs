@@ -15,7 +15,6 @@ public class Scene
     private Lightsource l1;
     
     
-        
     /// <summary>
     /// constructor of the class, determines all objects in the scene and puts them in a list
     /// </summary>

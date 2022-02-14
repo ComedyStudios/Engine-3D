@@ -102,7 +102,6 @@ public class Ray
         var ray = new Ray(hit.HitLocation + bias * hit.Normal, lightDirection);
         var shadowRayHit = ray.RayCastHit(scene);
         
-        
         if (shadowRayHit == null || shadowRayHit.SceneObject == hit.SceneObject)
         {
             return false;
