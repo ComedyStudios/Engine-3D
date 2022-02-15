@@ -113,13 +113,16 @@ public class Ray
         var color = DiffuseShading(hit, scene).ColorMultiply(1-hit.SceneObject.Reflectivity);
         if (iteration < maxIteration)
         {
-            var bias = 0.001f;
-            var reflectedRayDir = incedentRay.Direction - 2 * Vector3.Dot(incedentRay.Direction, hit.Normal) * hit.Normal;
-            var reflectionRay = new Ray(hit.HitLocation + bias * hit.Normal ,reflectedRayDir);
-            var newHit = reflectionRay.RayCastHit(scene);
-            if (newHit != null)
+            if (hit.SceneObject.Reflectivity != 0)
             {
-                color = color.AddColor(Reflection(maxIteration, newHit, reflectionRay, scene, iteration + 1).ColorMultiply(hit.SceneObject.Reflectivity));
+                var bias = 0.001f;
+                var reflectedRayDir = incedentRay.Direction - 2 * Vector3.Dot(incedentRay.Direction, hit.Normal) * hit.Normal;
+                var reflectionRay = new Ray(hit.HitLocation + bias * hit.Normal ,reflectedRayDir);
+                var newHit = reflectionRay.RayCastHit(scene);
+                if (newHit != null)
+                {
+                    color = color.AddColor(Reflection(maxIteration, newHit, reflectionRay, scene, iteration + 1).ColorMultiply(hit.SceneObject.Reflectivity));
+                }
             }
         }
         return color;

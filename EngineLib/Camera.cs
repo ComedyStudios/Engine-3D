@@ -5,26 +5,29 @@ namespace EngineLib;
 public class Camera: SceneObject
 {
     /// <summary>
-    /// Camera resolution - width
-    /// </summary>
-    public const float Width = 1280;
-    
-    /// <summary>
-    /// Camera resolution - width
-    /// </summary>
-    public const float Height = 720;
-
-    /// <summary>
     /// Creates an instance of the Camera
     /// </summary>
     /// <param name="x">x axis of the camera position.</param>
     /// <param name="y">y axis of the camera position.</param>
     /// <param name="z">x axis of the camera position.</param>
     /// <param name="fov">field of view of the cammera</param>
-    public Camera(float x, float y, float z, float fov): base(x,y,z)
+    /// <param name="width">x pixels of the cam</param>
+    /// <param name="height">y pixels of the cam</param>
+    public Camera(float x, float y, float z, float fov, int width, int height): base(x,y,z)
     {
         Fov = fov;
+        Width = width;
+        Height = height;
     }
+    /// <summary>
+    /// Camera resolution - width
+    /// </summary>
+    public float Width { get; }
+    
+    /// <summary>
+    /// Camera resolution - width
+    /// </summary>
+    public float Height { get; }
 
     /// <summary>
     /// Gets or set camera field of view
@@ -44,8 +47,8 @@ public class Camera: SceneObject
     /// <returns>Position of pixel in scene</returns>
     public Vector3 CameraToWorldCoordinate(int x, int y)
     {
-        var width = Camera.Width;
-        var height = Camera.Height;
+        var width = Width;
+        var height = Height;
         var fov = Fov;
         var aspectRatio =  AspectRatio;
 
@@ -57,5 +60,11 @@ public class Camera: SceneObject
         worldCoordinate = Vector3.Normalize(worldCoordinate-Position);
         
         return worldCoordinate;
+    }
+
+    public void MoveCamera(Input input)
+    {
+        var translationVector = new Vector3(input.HorizontalMovement, 0, input.VerticalMovement) * input.DeltaTime * input.MovementSpeed;
+        MoveObject(translationVector);
     }
 }

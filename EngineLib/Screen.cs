@@ -16,16 +16,16 @@ public class Screen
     /// <summary>
     /// construcktor of the Class
     /// </summary>
-    public Screen()
+    public Screen(WriteableBitmap wb)
     {
         mainScene = new Scene();
-        _mainCamera = mainScene.MainCamera;
+        _mainCamera = new Camera(0, 0, -20, 90, (int)wb.Width, (int)wb.Height);
     }
     public void Display(WriteableBitmap wb)
     {
         byte[] pixels = new byte[(int)wb.Width * (int)wb.Height * wb.Format.BitsPerPixel / 8];
         Int32Rect rect = new Int32Rect(0, 0, (int)wb.Width, (int)wb.Height);
-
+    
         for (int x = 0; x < wb.Width; x++)
         {
             for (int y = 0; y < wb.Height; y++)
@@ -36,7 +36,7 @@ public class Screen
                 int red = 0;
                 int green = 0;
                 int blue = 0;
-
+    
                 var hit = ray.RayCastAndShade(mainScene,3);
             
                 if (hit != null)
@@ -63,8 +63,9 @@ public class Screen
         wb.WritePixels(rect, pixels, stride, 0);
     }
     
-    public void DisplayUnsafe(IntPtr buffer, int stride, int bitsPerPixel, int width, int height)
+    public void DisplayUnsafe(IntPtr buffer, int stride, int bitsPerPixel, int width, int height, Input input)
     {
+       _mainCamera.MoveCamera(input);
         unsafe
         {
             for (int x = 0; x < width; x++)

@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Numerics;
+using System.Windows.Media.Imaging;
 
 namespace EngineLib;
 
@@ -20,7 +21,6 @@ public class Scene
     /// </summary>
     public Scene()
     {
-        MainCamera = new Camera(0, 0,  -20, 90);
         p1 = new Plane(-50, -4, -20, 100, 100, Color.NavajoWhite,1, 0.5f);
         s1  = new Sphere(-10, 0,0,3, Color.Chocolate, 1, 0.25f);
         s2 = new Sphere(10, 0, 0, 2, Color.LimeGreen, 1,0);
@@ -38,7 +38,7 @@ public class Scene
     /// <summary>
     /// camera of the Scene
     /// </summary>
-    public Camera MainCamera { get; set; }
+
 
     /// <summary>
     /// List with all Light-sources in the Scene 
@@ -49,13 +49,7 @@ public class Scene
     /// Array with all the objects in the Scene
     /// </summary>
     public List<SceneObject> Objects { get; set; } = new List<SceneObject>();
+
     
-    /// <summary>
-    /// converts 2D coordinates of a pixel into a direction of a ray
-    /// </summary>
-    /// <param name="x">coordinate of the pixel</param>
-    /// <param name="y">coordinate of the pixel</param>
-    /// <param name="camera">camera the ray is being cast from</param>
-    /// <returns>direction</returns>
-    
+
 }

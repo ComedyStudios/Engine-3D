@@ -14,7 +14,7 @@ public class HitScanTest
     [TestMethod]
     public void SphereColisionTest()
     {
-        var cam = new Camera(0,0,-10, 90);
+        var cam = new Camera(0,0,-10, 90,1280, 720);
         var scene = new Scene();
         var s1 = new Sphere(0, 0, 100,1, Color.Chartreuse, 1, 0);
         var ray = new Ray(cam.Position, cam.CameraToWorldCoordinate(640, 360)); ;

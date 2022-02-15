@@ -42,4 +42,9 @@ public abstract class SceneObject
     /// Color of the Object
     /// </summary>
     public Color Color { get; set; }
+
+    public void MoveObject(Vector3 translationVector)
+    {
+        Position += translationVector;
+    }
 }
