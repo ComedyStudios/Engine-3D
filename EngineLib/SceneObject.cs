@@ -67,6 +67,8 @@ public abstract class SceneObject
             LocalAxis[i] = RotateVectorOnZ(angleZ, LocalAxis[i]);
         }
     }
+    
+    //TODO: Fix some computation error that is probably here
     private Vector3 RotateVectorOnX(float angle, Vector3 vector3)
     {
         vector3= new Vector3(vector3.X, (float)(Math.Cos(angle) * vector3.Y- Math.Sin(angle) * vector3.Z), (float)(Math.Sin(angle) * vector3.Y + Math.Cos(angle) * vector3.Z));

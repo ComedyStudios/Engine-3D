@@ -101,7 +101,7 @@ namespace Engine_3D
         {
             var currMousePoint = e.GetPosition(this);
             _input.MouseDeltaX = currMousePoint.X - _lastMousePosition.X;
-            _input.MouseDeltaY = -(currMousePoint.Y - _lastMousePosition.Y);
+            _input.MouseDeltaY = (currMousePoint.Y - _lastMousePosition.Y);
             _lastMousePosition.Y = currMousePoint.Y;
             _lastMousePosition.X = currMousePoint.X;
         }
