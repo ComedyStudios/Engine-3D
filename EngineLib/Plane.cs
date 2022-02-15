@@ -24,7 +24,7 @@ public class Plane: SceneObject, IVisible
     /// <summary>
     /// return the Normal Vector of the plane which determines its orientation. The Normal Vector is facing the same way as the Y vector
     /// </summary>
-    public Vector3 NormalVector => YAxis;
+    public Vector3 NormalVector => LocalAxis[1];
     
     /// <summary>
     /// width of the plane

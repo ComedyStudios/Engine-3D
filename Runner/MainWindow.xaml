@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Engine_3D"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280"
+        Name="Window"
         >
     
     <Grid x:Name="MainGrid">

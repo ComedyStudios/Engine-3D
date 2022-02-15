@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Diagnostics;
+using System.Numerics;
 
 namespace EngineLib;
 
@@ -64,7 +65,10 @@ public class Camera: SceneObject
 
     public void MoveCamera(Input input)
     {
-        var translationVector = new Vector3(input.HorizontalMovement, 0, input.VerticalMovement) * input.DeltaTime * input.MovementSpeed;
+        var angularSpeed = 1;
+        var translationVector = new Vector3(input.HorizontalMovement, 0, input.VerticalMovement) * (float)input.DeltaTime * input.MovementSpeed;
         MoveObject(translationVector);
+        Rotate((float)input.MouseDeltaY * angularSpeed, (float)input.MouseDeltaX * angularSpeed, 0);
+        Trace.WriteLine(input.MouseDeltaY);
     }
 }

@@ -15,9 +15,9 @@ public static class Vector3Extensions
     {
         var translation = sceneObject.Position;
         var worldCoordinate = new Vector3(
-            sceneObject.XAxis.X * localCoordinate.X + sceneObject.YAxis.X * localCoordinate.Y + sceneObject.ZAxis.X * localCoordinate.Z + translation.X,
-            sceneObject.XAxis.Y * localCoordinate.X + sceneObject.YAxis.Y * localCoordinate.Y + sceneObject.ZAxis.Y * localCoordinate.Z + translation.Y,
-            sceneObject.XAxis.Z * localCoordinate.X + sceneObject.YAxis.Z * localCoordinate.Y + sceneObject.ZAxis.Z * localCoordinate.Z + translation.Z);
+            sceneObject.LocalAxis[0].X * localCoordinate.X + sceneObject.LocalAxis[1].X * localCoordinate.Y + sceneObject.LocalAxis[2].X * localCoordinate.Z + translation.X,
+            sceneObject.LocalAxis[0].Y * localCoordinate.X + sceneObject.LocalAxis[1].Y * localCoordinate.Y + sceneObject.LocalAxis[2].Y * localCoordinate.Z + translation.Y,
+            sceneObject.LocalAxis[0].Z * localCoordinate.X + sceneObject.LocalAxis[1].Z * localCoordinate.Y + sceneObject.LocalAxis[2].Z * localCoordinate.Z + translation.Z);
         return worldCoordinate;
     }
     

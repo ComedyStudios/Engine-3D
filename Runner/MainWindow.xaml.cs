@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -21,6 +22,7 @@ namespace Engine_3D
         private const long MinDeltaTime = (long)1000 / 30;
         private readonly Label _label = new();
         private Input _input = new ();
+        private Point _lastMousePosition = new Point(0, 0); 
         public MainWindow()
         {
             //SetSettings
@@ -69,6 +71,7 @@ namespace Engine_3D
                     width = (int)_bmpLive.Width;
                     height = (int)_bmpLive.Height;
                     _input.DeltaTime = (float)currentTickDelta / 1000;
+
                 });
 
                 
@@ -81,8 +84,7 @@ namespace Engine_3D
                 {//UI thread does post update operations
                     _bmpLive.AddDirtyRect(new System.Windows.Int32Rect(0, 0, width, height));
                     _bmpLive.Unlock();
-
-                    _label.Content = currentTickDelta.ToString();
+                    _label.Content = currentTickDelta.ToString() + " " +_input.MouseDeltaY + " " + _input.MouseDeltaX;
                 });
 
                 
@@ -93,6 +95,15 @@ namespace Engine_3D
                 
                 _lastRenderTick = currentTick;
             }
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            var currMousePoint = e.GetPosition(this);
+            _input.MouseDeltaX = currMousePoint.X - _lastMousePosition.X;
+            _input.MouseDeltaY = -(currMousePoint.Y - _lastMousePosition.Y);
+            _lastMousePosition.Y = currMousePoint.Y;
+            _lastMousePosition.X = currMousePoint.X;
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -136,5 +147,6 @@ namespace Engine_3D
                     break;
             }
         }
+        
     }
 }

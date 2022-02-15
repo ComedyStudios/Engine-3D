@@ -1,5 +1,7 @@
-﻿using System.Drawing;
-using System.Numerics;
+﻿using System.Numerics;
+using System.Windows.Media;
+using Color = System.Drawing.Color;
+using Vector = System.Windows.Vector;
 
 namespace EngineLib;
 
@@ -28,10 +30,14 @@ public abstract class SceneObject
     /// position and Axis of the Object
     /// </summary>
     public Vector3 Position;
-    public Vector3 XAxis = new(1, 0, 0);
-    public Vector3 YAxis= new(0, 1, 0);
-    public Vector3 ZAxis = new(0, 0, 1);
-    
+
+    private static Vector3 XAxis = new(1, 0, 0);
+    private static Vector3 YAxis= new(0, 1, 0);
+    private static Vector3 ZAxis = new(0, 0, 1);
+
+    public List<Vector3> LocalAxis = new List<Vector3>() {XAxis, YAxis, ZAxis};
+
+
     /// <summary>
     /// Reflectiveness of the Sphere
     /// </summary>
@@ -46,5 +52,34 @@ public abstract class SceneObject
     public void MoveObject(Vector3 translationVector)
     {
         Position += translationVector;
+    }
+
+    public void Rotate(float angleX, float angleY, float angleZ)
+    {
+        angleX = (float)((Math.PI / 180) * angleX);
+        angleY = (float)((Math.PI / 180) * angleY);
+        angleZ = (float)((Math.PI / 180) * angleZ);
+
+        for (int i = 0; i < LocalAxis.Count; i++)
+        {
+            LocalAxis[i] = RotateVectorOnX(angleX, LocalAxis[i]);
+            LocalAxis[i] = RotateVectorOnY(angleY, LocalAxis[i]);
+            LocalAxis[i] = RotateVectorOnZ(angleZ, LocalAxis[i]);
+        }
+    }
+    private Vector3 RotateVectorOnX(float angle, Vector3 vector3)
+    {
+        vector3= new Vector3(vector3.X, (float)(Math.Cos(angle) * vector3.Y- Math.Sin(angle) * vector3.Z), (float)(Math.Sin(angle) * vector3.Y + Math.Cos(angle) * vector3.Z));
+        return vector3;
+    }
+    private Vector3 RotateVectorOnY(float angle, Vector3 vector3)
+    {
+        vector3= new Vector3((float)(Math.Cos(angle) * vector3.X+Math.Sin(angle)*vector3.Z), vector3.Y, (float)(-Math.Sin(angle) * vector3.X+ Math.Cos(angle) * vector3.Z));
+        return vector3;
+    }
+    private Vector3 RotateVectorOnZ(float angle, Vector3 vector3)
+    {
+        vector3= new Vector3((float)(Math.Cos(angle)* vector3.X- Math.Sin(angle) * vector3.Y), (float)(Math.Sin(angle)* vector3.X + Math.Cos(angle) * vector3.Y), vector3.Z);
+        return vector3;
     }
 }
