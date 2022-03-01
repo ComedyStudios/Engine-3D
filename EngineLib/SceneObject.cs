@@ -54,7 +54,26 @@ public abstract class SceneObject
         Position += translationVector;
     }
 
-    public void Rotate(float angleX, float angleY, float angleZ)
+    public void RotateOnGlobal(float angleX, float angleY, float angleZ)
+    {
+        angleX = (float)((Math.PI / 180) * angleX);
+        angleY = (float)((Math.PI / 180) * angleY);
+        angleZ = (float)((Math.PI / 180) * angleZ);
+
+        LocalAxis[0] = RotateVectorOnX(angleX, new(1, 0, 0));
+        LocalAxis[0] = RotateVectorOnY(angleY, LocalAxis[0]);
+        LocalAxis[0] = RotateVectorOnZ(angleZ, LocalAxis[0]);
+        
+        LocalAxis[1] = RotateVectorOnX(angleX, new(0, 1, 0));
+        LocalAxis[1] = RotateVectorOnY(angleY, LocalAxis[1]);
+        LocalAxis[1] = RotateVectorOnZ(angleZ, LocalAxis[1]);
+        
+        LocalAxis[2] = RotateVectorOnX(angleX, new(0, 0, 1));
+        LocalAxis[2] = RotateVectorOnY(angleY, LocalAxis[2]);
+        LocalAxis[2] = RotateVectorOnZ(angleZ, LocalAxis[2]);
+    }
+    
+    public void RotateOnLocal(float angleX, float angleY, float angleZ)
     {
         angleX = (float)((Math.PI / 180) * angleX);
         angleY = (float)((Math.PI / 180) * angleY);
@@ -71,7 +90,7 @@ public abstract class SceneObject
     //TODO: Fix some computation error that is probably here
     private Vector3 RotateVectorOnX(float angle, Vector3 vector3)
     {
-        vector3= new Vector3(vector3.X, (float)(Math.Cos(angle) * vector3.Y- Math.Sin(angle) * vector3.Z), (float)(Math.Sin(angle) * vector3.Y + Math.Cos(angle) * vector3.Z));
+        vector3= new Vector3(vector3.X, (float)(Math.Cos(angle) * vector3.Y - Math.Sin(angle) * vector3.Z), (float)(Math.Sin(angle) * vector3.Y + Math.Cos(angle) * vector3.Z));
         return vector3;
     }
     private Vector3 RotateVectorOnY(float angle, Vector3 vector3)

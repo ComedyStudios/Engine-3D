@@ -63,12 +63,19 @@ public class Camera: SceneObject
         return worldCoordinate;
     }
 
+    //TODO: Temp values delete in future release;
+    private float rotaitonXAngles;
+    private float rotationYAngles;
     public void MoveCamera(Input input)
     {
         var angularSpeed = 2;
         var translationVector = new Vector3(input.HorizontalMovement, 0, input.VerticalMovement) * (float)input.DeltaTime * input.MovementSpeed;
         MoveObject(translationVector);
-        Rotate((float)input.MouseDeltaY * angularSpeed, (float)input.MouseDeltaX * angularSpeed, 0);
+        //TODO: make this work as intended:
+        //Rotate((float)input.MouseDeltaY * angularSpeed, (float)input.MouseDeltaX * angularSpeed, 0);
+        rotaitonXAngles += (float)input.MouseDeltaY;
+        rotationYAngles += (float)input.MouseDeltaX;
+        RotateOnGlobal(rotaitonXAngles * angularSpeed, rotationYAngles * angularSpeed, 0);
         Trace.WriteLine(input.MouseDeltaY);
     }
 }
